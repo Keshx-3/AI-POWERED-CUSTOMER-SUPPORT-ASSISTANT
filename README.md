@@ -1,3 +1,4 @@
+
 # AI-Powered Customer Support Assistant
 
 A fully offline, local AI-powered customer support assistant built with **Python (FastAPI)**, **Ollama (local LLM)**, and **Flutter**.
@@ -55,15 +56,12 @@ frontend/
 
 ## Output ScreenShots
 
-
+Hotel Search
 https://github.com/user-attachments/assets/b0c34fce-fdb6-4888-85d1-f16408128f8b
 
-
-Hotel Search
-<img width="1576" height="882" alt="Hotels" src="https://github.com/user-attachments/assets/96fb3fe5-b40b-4341-a0f3-86c83d430dd0" />
-
 Flights Search
-<img width="941" height="1012" alt="Flights" src="https://github.com/user-attachments/assets/20d4e243-c030-43d9-89eb-191a1fc6b709" />
+https://github.com/user-attachments/assets/b79b137d-4f80-4783-9252-60dc1f7fcc76
+
 
 Tracking Orders
 <img width="943" height="1021" alt="Order Tracking" src="https://github.com/user-attachments/assets/7d158d44-66d7-46f3-9856-03b3df3b1e8c" />
