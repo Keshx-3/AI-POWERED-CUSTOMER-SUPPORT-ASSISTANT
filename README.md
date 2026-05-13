@@ -54,6 +54,11 @@ frontend/
 ```
 
 ## Output ScreenShots
+
+
+https://github.com/user-attachments/assets/b0c34fce-fdb6-4888-85d1-f16408128f8b
+
+
 Hotel Search
 <img width="1576" height="882" alt="Hotels" src="https://github.com/user-attachments/assets/96fb3fe5-b40b-4341-a0f3-86c83d430dd0" />
 
