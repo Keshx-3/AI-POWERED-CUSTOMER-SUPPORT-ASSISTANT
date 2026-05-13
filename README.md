@@ -54,14 +54,19 @@ frontend/
 ```
 
 ## Output ScreenShots
+Hotel Search
 <img width="1576" height="882" alt="Hotels" src="https://github.com/user-attachments/assets/96fb3fe5-b40b-4341-a0f3-86c83d430dd0" />
 
+Flights Search
 <img width="941" height="1012" alt="Flights" src="https://github.com/user-attachments/assets/20d4e243-c030-43d9-89eb-191a1fc6b709" />
 
+Tracking Orders
 <img width="943" height="1021" alt="Order Tracking" src="https://github.com/user-attachments/assets/7d158d44-66d7-46f3-9856-03b3df3b1e8c" />
 
-<img width="958" height="1012" alt="Refund " src="https://github.com/user-attachments/assets/8b0574e1-43d7-47e7-8b5f-b9832ba0be39" />
+Requestion Refunds
+<img width="958" height="1012" alt="Refund" src="https://github.com/user-attachments/assets/8b0574e1-43d7-47e7-8b5f-b9832ba0be39" />
 
+Raising Complaints
 <img width="951" height="508" alt="Complaint" src="https://github.com/user-attachments/assets/f0caaa85-fe37-4e40-bfcd-e6829d880dd3" />
 
 
