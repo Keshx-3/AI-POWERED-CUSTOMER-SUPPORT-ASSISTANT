@@ -13,7 +13,7 @@ INTENT_SYSTEM_PROMPT = """You are an intent classifier for customer support. Cla
 
 Intents:
 - "hotel_search": params: city (str), max_price (float)
-- "flight_search": params: source (str), destination (str), date (str)
+- "flight_search": params: source (str), destination (str), date (str), max_price (float)
 - "order_tracking": params: order_id (str)
 - "refund_request": params: order_id (str)
 - "complaint": params: category (str), description (str)
@@ -64,6 +64,7 @@ async def classify_and_extract(
     params = parsed.get("params", {})
     reply_to_user = _safe_reply(parsed.get("reply_to_user"))
 
+    intent = _override_intent_from_keywords(intent, params, user_message, conversation_context)
     _infer_price_if_missing(intent, params, user_message)
 
     if intent != "general":
@@ -211,12 +212,51 @@ def _safe_reply(val: object) -> str:
     return str(val)
 
 
+def _override_intent_from_keywords(
+    intent: str, params: dict, user_message: str, context: str
+) -> str:
+    msg = user_message.lower()
+    has_flight_words = any(w in msg for w in ["flight", "fly", "plane", "airport"])
+    has_hotel_words = any(w in msg for w in ["hotel", "stay", "room", "resort"])
+    is_followup = _is_followup_without_keywords(msg, has_hotel_words, has_flight_words)
+
+    if is_followup:
+        last = _extract_last_intent(context)
+        if last:
+            return last
+
+    if has_flight_words and intent == "hotel_search":
+        logger.info("Intent override: hotel_search -> flight_search (msg has flight keywords)")
+        src, dst = _extract_route_from_msg(msg)
+        params.clear()
+        params.update({"source": src, "destination": dst})
+        return "flight_search"
+
+    if has_hotel_words and intent == "flight_search":
+        logger.info("Intent override: flight_search -> hotel_search (msg has hotel keywords)")
+        params.clear()
+        params.update({"city": _extract_city(msg)})
+        return "hotel_search"
+
+    return intent
+
+
+def _is_followup_without_keywords(msg: str, has_hotel: bool, has_flight: bool) -> bool:
+    if has_hotel or has_flight:
+        return False
+    follow_words = ["cheap", "cheaper", "cheapest", "affordable", "budget", "more", "another", "other", "different", "earlier", "later"]
+    return any(w in msg for w in follow_words)
+
+
 def _infer_price_if_missing(intent: str, params: dict, user_message: str) -> None:
-    if intent != "hotel_search":
+    if intent not in ("hotel_search", "flight_search"):
         return
     if "max_price" in params and params["max_price"]:
         return
     msg = user_message.lower()
     cheap_words = ["cheap", "cheaper", "cheapest", "affordable", "budget", "low", "inexpensive", "economy", "discount"]
     if any(w in msg for w in cheap_words):
-        params["max_price"] = 5000.0
+        if intent == "hotel_search":
+            params["max_price"] = 5000.0
+        elif intent == "flight_search":
+            params["max_price"] = 5000.0

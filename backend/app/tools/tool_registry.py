@@ -69,8 +69,12 @@ def _format_city(city: str, code: str) -> str:
     return f"{city} ({code})" if city and "(" not in city else city or f"Unknown ({code})"
 
 
-def flight_tool(source: str = "", destination: str = "", date: str = "") -> dict:
-    logger.info("flight_tool called: %s -> %s on %s", source, destination, date)
+def flight_tool(source: str = "", destination: str = "", date: str = "", max_price: float = 99999) -> dict:
+    try:
+        limit = float(max_price) if float(max_price) > 0 else 99999
+    except (TypeError, ValueError):
+        limit = 99999
+    logger.info("flight_tool called: %s -> %s on %s, max_price=%s, limit=%s", source, destination, date, max_price, limit)
     flights = [
         {"airline": "IndiGo", "flight_number": "6E-201", "departure": "06:30", "arrival": "09:15", "price": 5500, "duration": "2h 45m"},
         {"airline": "SpiceJet", "flight_number": "SG-104", "departure": "14:00", "arrival": "16:40", "price": 4200, "duration": "2h 40m"},
@@ -78,18 +82,19 @@ def flight_tool(source: str = "", destination: str = "", date: str = "") -> dict
         {"airline": "Vistara", "flight_number": "UK-895", "departure": "16:45", "arrival": "19:20", "price": 6500, "duration": "2h 35m"},
         {"airline": "GoFirst", "flight_number": "G8-321", "departure": "21:00", "arrival": "23:15", "price": 3800, "duration": "2h 15m"},
     ]
+    filtered = [f for f in flights if f["price"] <= limit]
     return {
         "source": _format_city(source, "BOM"),
         "destination": _format_city(destination, "DEL"),
         "date": date or "2026-05-15",
-        "flights": flights,
-        "total": len(flights),
+        "flights": filtered,
+        "total": len(filtered),
     }
 
 
 TOOL_MAP = {
     "hotel_search": {"func": hotel_tool, "params": ["city", "max_price"]},
-    "flight_search": {"func": flight_tool, "params": ["source", "destination", "date"]},
+    "flight_search": {"func": flight_tool, "params": ["source", "destination", "date", "max_price"]},
     "order_tracking": {"func": tracking_tool, "params": ["order_id"]},
     "refund_request": {"func": refund_tool, "params": ["order_id"]},
     "complaint": {"func": complaint_tool, "params": ["category", "description"]},
