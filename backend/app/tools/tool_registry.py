@@ -49,7 +49,10 @@ def escalation_tool(reason: str = "") -> dict:
 
 
 def hotel_tool(city: str = "", max_price: float = 99999) -> dict:
-    limit = max_price if max_price > 0 else 99999
+    try:
+        limit = float(max_price) if float(max_price) > 0 else 99999
+    except (TypeError, ValueError):
+        limit = 99999
     logger.info("hotel_tool called: city=%s, max_price=%s, limit=%s", city, max_price, limit)
     hotels = [
         {"name": "Grand Palace Hotel", "price_per_night": 15000, "rating": 4.8, "location": "Dubai Marina", "image_url": ""},

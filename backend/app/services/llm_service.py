@@ -64,6 +64,8 @@ async def classify_and_extract(
     params = parsed.get("params", {})
     reply_to_user = _safe_reply(parsed.get("reply_to_user"))
 
+    _infer_price_if_missing(intent, params, user_message)
+
     if intent != "general":
         tool_result = execute_tool(intent, params)
         return {
@@ -207,3 +209,14 @@ def _safe_reply(val: object) -> str:
     if val is None:
         return "Let me help you with that."
     return str(val)
+
+
+def _infer_price_if_missing(intent: str, params: dict, user_message: str) -> None:
+    if intent != "hotel_search":
+        return
+    if "max_price" in params and params["max_price"]:
+        return
+    msg = user_message.lower()
+    cheap_words = ["cheap", "cheaper", "cheapest", "affordable", "budget", "low", "inexpensive", "economy", "discount"]
+    if any(w in msg for w in cheap_words):
+        params["max_price"] = 5000.0
