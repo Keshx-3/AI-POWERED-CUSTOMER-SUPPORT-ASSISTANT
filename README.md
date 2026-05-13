@@ -57,10 +57,18 @@ frontend/
 ## Output ScreenShots
 
 Hotel Search
-https://github.com/user-attachments/assets/b0c34fce-fdb6-4888-85d1-f16408128f8b
+
+
+https://github.com/user-attachments/assets/e27c24cf-d3b2-45d6-8f1a-dd4064f15e0d
+
+
 
 Flights Search
-https://github.com/user-attachments/assets/b79b137d-4f80-4783-9252-60dc1f7fcc76
+
+
+https://github.com/user-attachments/assets/8023fa35-2c1f-440a-8469-f8952201187e
+
+
 
 
 Tracking Orders
