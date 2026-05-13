@@ -12,10 +12,9 @@ User → Flutter App → POST /api/v1/chat → FastAPI → Ollama (intent classi
                    → Dynamic UI rendering (HotelWidget, FlightWidget, InfoCard)
 ```
 
-```
+
 <img width="3599" height="1940" alt="mermaid-diagram-2026-05-13-123519" src="https://github.com/user-attachments/assets/177dde73-5b17-4667-9273-f63b593802ac" />
 
-```
 
 ### Backend Structure
 
